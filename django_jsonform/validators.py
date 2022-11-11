@@ -4,8 +4,8 @@ from django.core.exceptions import ValidationError
 from django.utils.deconstruct import deconstructible
 from django.utils.translation import gettext, gettext_lazy as _
 from django.utils import timezone
-from django_jsonform.exceptions import JSONSchemaValidationError
-from django_jsonform.utils import normalize_keyword
+from .exceptions import JSONSchemaValidationError
+from .utils import normalize_keyword
 
 
 @deconstructible
@@ -129,7 +129,7 @@ class JSONSchemaValidator:
                 # TypeError is raised when trying to make a set from unashable types
                 # i.e. lists and dicts
                 # so we JSON-ify each item to make it a string
-                if len(data) != len(set([json.dumps(item) for item in data])): 
+                if len(data) != len(set([json.dumps(item) for item in data])):
                     self.add_error(coords, 'All items in this list must be unique.')
 
         if choices:
@@ -249,7 +249,7 @@ class JSONSchemaValidator:
             elif format_ == 'date-time':
                 if not self.get_datetime(data):
                     self.add_error(coords, 'Enter a valid date and time.')
- 
+
     def validate_boolean(self, schema, data, coords):
         if schema.get('required') and data is None:
             self.add_error(coords, 'This field is required.')

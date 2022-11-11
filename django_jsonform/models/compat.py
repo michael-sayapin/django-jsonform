@@ -33,7 +33,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import json
 from django.db import models
-from django_jsonform.forms.fields import JSONFormField
+from ..forms.fields import JSONFormField
+from ..exceptions import ValidationError
 
 
 class JSONField(models.TextField):
@@ -48,12 +49,6 @@ class JSONField(models.TextField):
         self.encoder = encoder
         self.decoder = decoder
         super().__init__(verbose_name, name, **kwargs)
-
-    def deconstruct(self):
-        name, path, args, kwargs = super().deconstruct()
-        kwargs['encoder'] = self.encoder
-        kwargs['decoder'] = self.decoder
-        return name, path, args, kwargs
 
     def deconstruct(self):
         name, path, args, kwargs = super().deconstruct()
@@ -85,7 +80,7 @@ class JSONField(models.TextField):
         try:
             json.dumps(value, cls=self.encoder)
         except TypeError:
-            raise exceptions.ValidationError(
+            raise ValidationError(
                 self.error_messages['invalid'],
                 code='invalid',
                 params={'value': value},

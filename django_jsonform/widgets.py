@@ -3,8 +3,8 @@ from inspect import signature
 from django import forms
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
-from django_jsonform.utils import normalize_schema, get_setting
 from django.urls import reverse, NoReverseMatch
+from .utils import normalize_schema, get_setting
 
 
 class JSONFormWidget(forms.Widget):

@@ -13,7 +13,7 @@ else:
     if 'postgres' in settings.DATABASES['default']['ENGINE']:
         from django.contrib.postgres.forms import JSONField as DjangoJSONFormField
     else:
-        from django_jsonform.forms.compat import JSONFormField as DjangoJSONFormField
+        from .compat import JSONFormField as DjangoJSONFormField
 
 try:
     from django.contrib.postgres.forms import SimpleArrayField
@@ -21,11 +21,11 @@ except ImportError:
     class SimpleArrayField:
         mock_field = True
 
-from django_jsonform.widgets import JSONFormWidget
+from ..widgets import JSONFormWidget
 
 from django.forms.widgets import TextInput
-from django_jsonform.validators import JSONSchemaValidator
-from django_jsonform.exceptions import JSONSchemaValidationError
+from ..validators import JSONSchemaValidator
+from ..exceptions import JSONSchemaValidationError
 
 
 class JSONFormField(DjangoJSONFormField):
