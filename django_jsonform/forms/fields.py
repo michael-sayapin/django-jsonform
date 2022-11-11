@@ -31,12 +31,12 @@ from ..exceptions import JSONSchemaValidationError
 class JSONFormField(DjangoJSONFormField):
     def __init__(
         self, *, schema=None, encoder=None, decoder=None, model_name='',
-        file_handler='',
+        file_handler='', model_class=None,
         **kwargs
     ):
         self.file_handler = file_handler
         if not kwargs.get('widget'):
-            kwargs['widget'] = JSONFormWidget(schema=schema, model_name=model_name, file_handler=file_handler)
+            kwargs['widget'] = JSONFormWidget(schema=schema, model_name=model_name, model_class=model_class, file_handler=file_handler)
 
         self.widget = kwargs['widget']
 

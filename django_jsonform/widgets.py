@@ -14,6 +14,7 @@ class JSONFormWidget(forms.Widget):
         self,
         schema,
         model_name='',
+        model_class=None,
         file_handler='',
         validate_on_submit=False,
         attrs=None,
@@ -22,6 +23,7 @@ class JSONFormWidget(forms.Widget):
 
         self.schema = schema
         self.model_name = model_name
+        self.model_class = model_class
         self.file_handler = file_handler
         self.validate_on_submit = validate_on_submit
 
@@ -31,10 +33,12 @@ class JSONFormWidget(forms.Widget):
         If the schema is a callable, it will return the result of the callable.
         """
         if callable(self.schema):
+            kwargs = {
+                'model_class': self.model_class,
+            }
             if hasattr(self, 'instance') and len(signature(self.schema).parameters):
-                schema = self.schema(self.instance)
-            else:
-                schema = self.schema()
+                kwargs['instance'] = self.instance
+            schema = self.schema(**kwargs)
         else:
             schema = self.schema
 

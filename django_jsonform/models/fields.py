@@ -36,6 +36,7 @@ class JSONField(DjangoJSONField):
             'schema': self.schema,
             'model_name': self.model.__name__,
             'file_handler': self.file_handler,
+            'model_class': self.model,
             **kwargs
         })
 
